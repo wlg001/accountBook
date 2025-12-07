@@ -23,6 +23,14 @@ cp .env.example .env
 # 编辑 .env 文件，配置数据库连接等信息
 ```
 
+**注意**: 默认使用SQLite数据库，无需额外配置。如需切换到PostgreSQL，请参考 [DATABASE_GUIDE.md](./DATABASE_GUIDE.md)
+
+### 3.5 测试数据库连接
+
+```bash
+python tests/test_db_connection.py
+```
+
 ### 4. 启动服务
 
 ```bash

@@ -5,7 +5,8 @@ uvicorn[standard]==0.24.0
 # 数据库
 sqlalchemy==2.0.23
 alembic==1.12.1
-psycopg2-binary==2.9.9
+# psycopg2-binary==2.9.9  # PostgreSQL驱动（生产环境使用）
+# 开发环境使用SQLite，无需额外驱动
 
 # 数据验证
 pydantic==2.5.0
