@@ -76,6 +76,7 @@ class Transaction(Base):
         DateTime(timezone=True),
         server_default=func.now(),
         onupdate=func.now(),
+        nullable=True,  # 创建时为NULL，更新时才设置
         comment="更新时间"
     )
     
