@@ -160,28 +160,36 @@ DATABASE_URL=sqlite:///./accountbook.db
 ## 🎯 Sprint 1: 数据库设计与用户认证 (3-4天)
 
 ### Task 1.1 - 数据库模型定义 【P0】
-**状态**: 🔴 未开始  
+**状态**: 🟢 已完成  
 **模块**: 后端  
 **预估工时**: 4小时  
+**实际用时**: ~30分钟  
+**完成时间**: 2025-12-07  
 **依赖**: Task 0.2, Task 0.4
 
 **任务描述**:
-- [ ] 创建User模型（models/user.py）
-- [ ] 创建Category模型（models/category.py）
-- [ ] 创建Transaction模型（models/transaction.py）
-- [ ] 创建Budget模型（models/budget.py）- V2.0
-- [ ] 定义模型关系（外键、索引）
-- [ ] 编写模型文档字符串
+- [x] 创建User模型（models/user.py）
+- [x] 创建Category模型（models/category.py）
+- [x] 创建Transaction模型（models/transaction.py）
+- [x] 创建Budget模型（models/budget.py）- V2.0
+- [x] 定义模型关系（外键、索引）
+- [x] 编写模型文档字符串
 
 **核心字段**:
 - User: id, username, email, hashed_password, nickname, avatar_url, is_active, created_at, updated_at
 - Category: id, user_id, name, type, icon, color, is_system, sort_order, created_at
 - Transaction: id, user_id, category_id, amount, type, transaction_date, description, tags, account_type, created_at, updated_at
+- Budget: id, user_id, category_id, amount, period_type, start_date, end_date, created_at
 
 **验收标准**:
-- 所有模型定义完整
-- 字段类型和约束正确
-- 关系定义正确
+- ✅ 所有模型定义完整
+- ✅ 字段类型和约束正确
+- ✅ 关系定义正确（1对多、外键、级联）
+- ✅ 索引配置合理（主键、外键、复合索引）
+- ✅ 所有字段包含comment注释
+
+**Git提交**: `d903acc` - feat(backend): 完成数据库模型定义  
+**补充文档**: `MODELS_GUIDE.md` - 数据库模型设计文档
 
 ---
 
