@@ -48,9 +48,13 @@ async def health_check():
     }
 
 
-# 这里后续会注册API路由
-# from app.api.v1 import auth, categories, transactions, statistics
-# app.include_router(auth.router, prefix="/api/v1/auth", tags=["认证"])
+# 注册API路由
+from app.api.v1 import auth
+
+app.include_router(auth.router, prefix="/api/v1/auth", tags=["认证"])
+
+# 后续会注册更多路由
+# from app.api.v1 import categories, transactions, statistics
 # app.include_router(categories.router, prefix="/api/v1/categories", tags=["分类"])
 # app.include_router(transactions.router, prefix="/api/v1/transactions", tags=["账目"])
 # app.include_router(statistics.router, prefix="/api/v1/statistics", tags=["统计"])
