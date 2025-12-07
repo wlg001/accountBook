@@ -74,10 +74,9 @@ class Transaction(Base):
     )
     updated_at = Column(
         DateTime(timezone=True),
-        server_default=func.now(),
         onupdate=func.now(),
-        nullable=True,  # 创建时为NULL，更新时才设置
-        comment="更新时间"
+        nullable=True,
+        comment="更新时间（创建时为NULL，更新时自动设置）"
     )
     
     # 关系定义

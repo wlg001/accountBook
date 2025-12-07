@@ -1,8 +1,8 @@
-"""Initial migration: create all tables (fixed updated_at nullable)
+"""Initial migration: create all tables
 
-Revision ID: 9f39b6e1449b
+Revision ID: 0fe1a0f191a3
 Revises: 
-Create Date: 2025-12-07 22:01:53.389966
+Create Date: 2025-12-07 22:05:49.040770
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '9f39b6e1449b'
+revision: str = '0fe1a0f191a3'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -29,7 +29,7 @@ def upgrade() -> None:
     sa.Column('avatar_url', sa.String(length=255), nullable=True, comment='头像URL'),
     sa.Column('is_active', sa.Boolean(), nullable=False, comment='是否激活'),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False, comment='创建时间'),
-    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True, comment='更新时间'),
+    sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True, comment='更新时间（创建时为NULL，更新时自动设置）'),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_users_email'), 'users', ['email'], unique=True)
@@ -79,7 +79,7 @@ def upgrade() -> None:
     sa.Column('tags', sa.String(length=255), nullable=True, comment='标签（逗号分隔）'),
     sa.Column('account_type', sa.String(length=50), nullable=True, comment='账户类型（现金/银行卡/支付宝/微信等）'),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False, comment='创建时间'),
-    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True, comment='更新时间'),
+    sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True, comment='更新时间（创建时为NULL，更新时自动设置）'),
     sa.ForeignKeyConstraint(['category_id'], ['categories.id'], ondelete='SET NULL'),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
