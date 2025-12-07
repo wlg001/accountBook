@@ -19,38 +19,44 @@
 ## 🎯 Sprint 0: 项目初始化与环境搭建 (1-2天)
 
 ### Task 0.1 - 项目基础结构创建 【P0】
-**状态**: 🔴 未开始  
+**状态**: 🟢 已完成  
 **模块**: 全栈  
 **预估工时**: 2小时  
+**实际用时**: ~10分钟  
+**完成时间**: 2025-12-07  
 **依赖**: 无
 
 **任务描述**:
-- [ ] 创建项目根目录结构
-- [ ] 初始化Git仓库
-- [ ] 创建 `.gitignore` 文件
-- [ ] 编写项目 `README.md`
+- [x] 创建项目根目录结构
+- [x] 初始化Git仓库
+- [x] 创建 `.gitignore` 文件
+- [x] 编写项目 `README.md`
 
 **验收标准**:
-- 目录结构清晰
-- Git仓库配置正确
-- README包含项目简介和启动说明
+- ✅ 目录结构清晰
+- ✅ Git仓库配置正确
+- ✅ README包含项目简介和启动说明
+
+**Git提交**: `37a6783` - chore: 项目初始化
 
 ---
 
 ### Task 0.2 - 后端项目初始化 【P0】
-**状态**: 🔴 未开始  
+**状态**: 🟢 已完成  
 **模块**: 后端  
 **预估工时**: 3小时  
+**实际用时**: ~20分钟  
+**完成时间**: 2025-12-07  
 **依赖**: Task 0.1
 
 **任务描述**:
-- [ ] 创建Python虚拟环境
-- [ ] 安装FastAPI及相关依赖
-- [ ] 创建 `requirements.txt` 文件
-- [ ] 搭建基础目录结构（app/api/models/schemas/crud/core）
-- [ ] 配置 `.env` 和 `.env.example` 文件
-- [ ] 创建 `main.py` 入口文件
-- [ ] 配置CORS中间件
+- [x] 创建Python虚拟环境
+- [x] 安装FastAPI及相关依赖
+- [x] 创建 `requirements.txt` 文件
+- [x] 搭建基础目录结构（app/api/models/schemas/crud/core）
+- [x] 配置 `.env` 和 `.env.example` 文件
+- [x] 创建 `main.py` 入口文件
+- [x] 配置CORS中间件
 
 **依赖包**:
 ```
@@ -68,26 +74,30 @@ psycopg2-binary==2.9.9  # PostgreSQL
 ```
 
 **验收标准**:
-- FastAPI服务可以启动
-- 访问 `http://localhost:8000/docs` 可以看到Swagger文档
-- 环境变量配置正确
+- ✅ FastAPI服务可以启动
+- ✅ 访问 `http://localhost:8000/docs` 可以看到Swagger文档
+- ✅ 环境变量配置正确
+
+**Git提交**: `093e033` - feat(backend): 完成后端项目初始化
 
 ---
 
 ### Task 0.3 - 前端项目初始化 【P0】
-**状态**: 🔴 未开始  
+**状态**: 🟢 已完成  
 **模块**: 前端  
 **预估工时**: 3小时  
+**实际用时**: ~25分钟  
+**完成时间**: 2025-12-07  
 **依赖**: Task 0.1
 
 **任务描述**:
-- [ ] 使用Vite创建React + TypeScript项目
-- [ ] 安装Ant Design UI库
-- [ ] 安装其他核心依赖（React Router、Zustand、Axios、ECharts）
-- [ ] 配置Vite环境变量
-- [ ] 创建基础目录结构
-- [ ] 配置TypeScript (tsconfig.json)
-- [ ] 配置ESLint + Prettier
+- [x] 使用Vite创建React + TypeScript项目
+- [x] 安装Ant Design UI库
+- [x] 安装其他核心依赖（React Router、Zustand、Axios、ECharts）
+- [x] 配置Vite环境变量
+- [x] 创建基础目录结构
+- [x] 配置TypeScript (tsconfig.json)
+- [x] 配置ESLint + Prettier
 
 **核心依赖**:
 ```json
@@ -105,35 +115,45 @@ psycopg2-binary==2.9.9  # PostgreSQL
 ```
 
 **验收标准**:
-- Vite开发服务器可以启动
-- 访问 `http://localhost:5173` 可以看到页面
-- TypeScript编译无错误
+- ✅ Vite开发服务器可以启动
+- ✅ 访问 `http://localhost:5173` 可以看到页面
+- ✅ TypeScript编译无错误
+
+**Git提交**: `c29299d` - feat(frontend): 完成前端项目初始化
 
 ---
 
 ### Task 0.4 - 数据库环境搭建 【P0】
-**状态**: 🔴 未开始  
+**状态**: 🟢 已完成  
 **模块**: 后端  
 **预估工时**: 2小时  
+**实际用时**: ~15分钟  
+**完成时间**: 2025-12-07  
 **依赖**: 无
 
 **任务描述**:
-- [ ] 安装PostgreSQL数据库（或使用Docker）
-- [ ] 创建数据库 `accountbook`
-- [ ] 创建数据库用户和权限
-- [ ] 配置数据库连接（core/database.py）
-- [ ] 测试数据库连接
+- [x] ~~安装PostgreSQL数据库（或使用Docker）~~ → 使用SQLite代替
+- [x] 创建数据库 `accountbook.db`
+- [x] ~~创建数据库用户和权限~~ → SQLite无需配置
+- [x] 配置数据库连接（core/database.py）
+- [x] 测试数据库连接
 
 **数据库配置**:
-```sql
-CREATE DATABASE accountbook;
-CREATE USER accountbook_user WITH PASSWORD 'your_password';
-GRANT ALL PRIVILEGES ON DATABASE accountbook TO accountbook_user;
+```python
+# 使用SQLite作为开发数据库
+DATABASE_URL=sqlite:///./accountbook.db
+
+# 生产环境可切换到PostgreSQL
+# DATABASE_URL=postgresql://user:password@localhost:5432/accountbook
 ```
 
 **验收标准**:
-- 数据库可以正常连接
-- SQLAlchemy连接池配置正确
+- ✅ 数据库可以正常连接
+- ✅ SQLAlchemy连接池配置正确
+- ✅ 数据库连接测试通过
+
+**Git提交**: `9d622a2` - feat(backend): 完成数据库环境搭建  
+**补充文档**: `DATABASE_GUIDE.md` - 数据库切换指南
 
 ---
 
@@ -1527,16 +1547,21 @@ services:
 ## 📊 总体进度跟踪
 
 ### MVP版本任务统计
-- **Sprint 0**: 4个任务 (约12小时)
-- **Sprint 1**: 11个任务 (约38小时)
-- **Sprint 2**: 4个任务 (约12小时)
-- **Sprint 3**: 6个任务 (约25小时)
-- **Sprint 4**: 5个任务 (约21小时)
-- **Sprint 5**: 4个任务 (约14小时)
-- **Sprint 6**: 5个任务 (约25小时)
-- **Sprint 7**: 3个任务 (约11小时)
+- **Sprint 0**: 4个任务 (预估12小时 → 实际~70分钟) ✅ **已完成**
+  - Task 0.1: 🟢 已完成 (~10分钟)
+  - Task 0.2: 🟢 已完成 (~20分钟)
+  - Task 0.3: 🟢 已完成 (~25分钟)
+  - Task 0.4: 🟢 已完成 (~15分钟)
+- **Sprint 1**: 11个任务 (约38小时) 🔴 未开始
+- **Sprint 2**: 4个任务 (约12小时) 🔴 未开始
+- **Sprint 3**: 6个任务 (约25小时) 🔴 未开始
+- **Sprint 4**: 5个任务 (约21小时) 🔴 未开始
+- **Sprint 5**: 4个任务 (约14小时) 🔴 未开始
+- **Sprint 6**: 5个任务 (约25小时) 🔴 未开始
+- **Sprint 7**: 3个任务 (约11小时) 🔴 未开始
 
 **MVP总计**: 42个任务，约158小时（约3-4周）
+**当前进度**: 4/42 任务完成 (9.5%)
 
 ### V2.0版本任务统计
 - **Sprint 8**: 5个任务 (约40小时)
@@ -1547,29 +1572,40 @@ services:
 
 ## 🎯 里程碑
 
-### 里程碑1: 项目初始化完成 ✓
-- 完成时间：Day 2
-- 标志：前后端项目可以启动，数据库连接成功
+### 里程碑1: 项目初始化完成 ✅
+- **预计时间**：Day 2
+- **实际完成**：2025-12-07 (Day 1) ✅
+- **标志**：前后端项目可以启动，数据库连接成功
+- **状态**：✅ 已完成
+  - ✅ Git仓库初始化
+  - ✅ 后端FastAPI可运行
+  - ✅ 前端React可访问
+  - ✅ SQLite数据库连接成功
 
-### 里程碑2: 用户认证完成 ✓
-- 完成时间：Day 5
-- 标志：用户可以注册、登录、访问受保护页面
+### 里程碑2: 用户认证完成 🔴
+- **预计时间**：Day 5
+- **状态**：🔴 未开始
+- **标志**：用户可以注册、登录、访问受保护页面
 
-### 里程碑3: 核心记账功能完成 ✓
-- 完成时间：Day 12
-- 标志：用户可以添加、查看、编辑、删除账目
+### 里程碑3: 核心记账功能完成 🔴
+- **预计时间**：Day 12
+- **状态**：🔴 未开始
+- **标志**：用户可以添加、查看、编辑、删除账目
 
-### 里程碑4: 统计分析功能完成 ✓
-- 完成时间：Day 17
-- 标志：Dashboard和统计页面展示数据
+### 里程碑4: 统计分析功能完成 🔴
+- **预计时间**：Day 17
+- **状态**：🔴 未开始
+- **标志**：Dashboard和统计页面展示数据
 
 ### 里程碑5: MVP版本发布 🚀
-- 完成时间：Day 21
-- 标志：所有核心功能完成，测试通过，可以部署使用
+- **预计时间**：Day 21
+- **状态**：🔴 未开始
+- **标志**：所有核心功能完成，测试通过，可以部署使用
 
 ### 里程碑6: V2.0版本发布 🚀
-- 完成时间：Day 28
-- 标志：进阶功能完成，产品更加完善
+- **预计时间**：Day 28
+- **状态**：🔴 未开始
+- **标志**：进阶功能完成，产品更加完善
 
 ---
 
