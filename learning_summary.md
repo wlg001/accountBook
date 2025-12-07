@@ -761,6 +761,210 @@ function App() {
 
 ---
 
+### Task 0.4: 数据库环境搭建
+
+**完成时间**: 2025-12-07  
+**用时**: ~15分钟
+
+#### 学到的知识点
+
+**1. 数据库选择：SQLite vs PostgreSQL**
+
+**为什么选择SQLite作为开发数据库？**
+- ✅ 零配置：Python内置支持
+- ✅ 单文件数据库：`accountbook.db`
+- ✅ 快速上手：专注于业务逻辑
+- ✅ 易于切换：SQLAlchemy抽象层
+
+**什么时候切换到PostgreSQL？**
+- 准备生产部署
+- 需要高并发支持
+- 需要高级特性（JSON字段、全文搜索等）
+- 数据量超过100万条
+
+**2. SQLite配置要点**
+
+**连接字符串格式**：
+```python
+# SQLite（相对路径）
+DATABASE_URL = "sqlite:///./accountbook.db"
+
+# SQLite（绝对路径）
+DATABASE_URL = "sqlite:////absolute/path/to/db.db"
+
+# PostgreSQL
+DATABASE_URL = "postgresql://user:password@host:port/dbname"
+```
+
+**SQLite特殊配置**：
+```python
+# check_same_thread=False 允许多线程访问
+connect_args = {"check_same_thread": False}
+
+engine = create_engine(
+    "sqlite:///./accountbook.db",
+    connect_args=connect_args
+)
+```
+
+**为什么需要 `check_same_thread=False`？**
+- SQLite默认只允许创建连接的线程访问
+- FastAPI使用多线程处理请求
+- 设置为False允许线程间共享连接
+
+**3. SQLAlchemy 2.0 新语法**
+
+**重要变化：text() 函数**
+
+```python
+# ❌ 旧语法（会报错）
+result = db.execute("SELECT 1")
+
+# ✅ 新语法（正确）
+from sqlalchemy import text
+result = db.execute(text("SELECT 1"))
+```
+
+**为什么改变？**
+- 更明确地区分文本SQL和ORM查询
+- 防止SQL注入
+- 类型安全
+
+**4. 数据库连接测试**
+
+**测试脚本结构**：
+```python
+def test_database_connection():
+    try:
+        # 1. 创建会话
+        db = SessionLocal()
+        
+        # 2. 执行测试查询
+        result = db.execute(text("SELECT 1"))
+        
+        # 3. 验证结果
+        assert result.scalar() == 1
+        
+        # 4. 关闭会话
+        db.close()
+        
+        return True
+    except Exception as e:
+        print(f"错误: {e}")
+        return False
+```
+
+**5. 数据库迁移策略**
+
+**为什么使用ORM？**
+- 数据库无关：切换数据库不改代码
+- 类型安全：Python类型检查
+- 防止SQL注入：参数化查询
+- 易于维护：代码即文档
+
+**SQLAlchemy的三层抽象**：
+```
+应用代码
+   ↓
+ORM层（Python类）
+   ↓
+SQL表达式层
+   ↓
+数据库连接层
+   ↓
+实际数据库（SQLite/PostgreSQL）
+```
+
+#### 关键命令总结
+
+```bash
+# 测试数据库连接
+python tests/test_db_connection.py
+
+# 查看SQLite数据库
+sqlite3 accountbook.db
+.tables           # 查看所有表
+.schema users     # 查看表结构
+.quit             # 退出
+
+# 备份数据库
+cp accountbook.db backup.db
+
+# 切换到PostgreSQL（参考DATABASE_GUIDE.md）
+```
+
+#### 重要概念理解
+
+**数据库连接池**：
+- 预先创建多个数据库连接
+- 请求时从池中获取连接
+- 使用完后归还连接池
+- 提高性能，减少连接开销
+
+**会话（Session）**：
+- 数据库操作的工作单元
+- 管理事务（Transaction）
+- 跟踪对象变化
+- 自动提交或回滚
+
+**依赖注入模式**：
+```python
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db    # 提供数据库会话
+    finally:
+        db.close()  # 确保会话关闭
+
+# FastAPI路由中使用
+@app.get("/users")
+def get_users(db: Session = Depends(get_db)):
+    return db.query(User).all()
+```
+
+**为什么使用依赖注入？**
+- 自动管理资源（打开/关闭）
+- 代码更清晰
+- 易于测试（可以注入mock对象）
+
+#### 学到的最佳实践
+
+1. **开发用SQLite，生产用PostgreSQL**
+   - 开发时快速迭代
+   - 生产时稳定可靠
+
+2. **使用ORM而不是原生SQL**
+   - 数据库无关
+   - 类型安全
+   - 防止SQL注入
+
+3. **环境变量管理敏感信息**
+   - 数据库密码
+   - API密钥
+   - 不提交.env到Git
+
+4. **总是测试数据库连接**
+   - 早发现配置问题
+   - 验证权限设置
+   - 确保环境正确
+
+#### 遇到的问题和解决方案
+
+**问题1**: SQLAlchemy 2.0 text()错误
+```
+Textual SQL expression 'SELECT 1' should be explicitly declared as text('SELECT 1')
+```
+
+**解决**: 导入并使用text()函数
+```python
+from sqlalchemy import text
+result = db.execute(text("SELECT 1"))
+```
+
+**学到**: SQLAlchemy 2.0引入了更严格的类型检查，提高了代码安全性。
+
+---
+
 ## 📐 开发规范与最佳实践
 
 ### 1. 代码命名规范
@@ -974,10 +1178,26 @@ Type 'string' is not assignable to type 'number'
 
 ## 🎯 下一步学习计划
 
+### Sprint 0: 项目初始化 ✅ 已完成
+
+- [x] Task 0.1: 项目基础结构创建
+- [x] Task 0.2: 后端项目初始化
+- [x] Task 0.3: 前端项目初始化
+- [x] Task 0.4: 数据库环境搭建
+
+**已掌握的核心技能**：
+- ✅ Git版本控制
+- ✅ Python虚拟环境
+- ✅ FastAPI框架基础
+- ✅ React + TypeScript开发
+- ✅ SQLite数据库配置
+- ✅ 项目工程化
+
 ### Sprint 1: 数据库与认证
 
 **即将学习的知识点**：
 - [ ] 数据库设计原则（主键、外键、索引）
+- [ ] SQLAlchemy ORM模型定义
 - [ ] Alembic数据库迁移
 - [ ] JWT认证机制
 - [ ] 密码加密（bcrypt）
@@ -1006,35 +1226,79 @@ Type 'string' is not assignable to type 'number'
 
 ## 💡 学习心得
 
-### Sprint 0 总结
+### Sprint 0 总结 ✅
 
-**完成日期**: 2025-12-07
+**完成日期**: 2025-12-07  
+**完成任务**: 4个  
+**总用时**: ~70分钟  
+**状态**: ✅ 100% 完成
 
-**学到的最重要的3件事**：
+**学到的最重要的5件事**：
 
 1. **前后端分离架构**
-   - 前端负责展示和交互
-   - 后端负责业务逻辑和数据
+   - 前端负责展示和交互（React）
+   - 后端负责业务逻辑和数据（FastAPI）
    - 通过RESTful API通信
+   - 数据库存储持久化数据（SQLite）
    
 2. **项目工程化**
-   - 使用Git版本控制
-   - 环境变量管理
-   - 代码规范和文档
+   - 使用Git版本控制（提交规范）
+   - 环境变量管理（.env文件）
+   - 代码规范和文档（README、设计文档）
+   - 目录结构设计（分层清晰）
    
 3. **开发工具链**
    - 虚拟环境（Python venv）
    - 包管理（pip、npm）
    - 开发服务器（uvicorn、vite）
+   - 数据库工具（SQLite）
 
-**遇到的挑战**：
-- CORS跨域问题 → 学会了配置CORS中间件
-- TypeScript类型错误 → 理解了类型系统的重要性
+4. **ORM与数据库抽象**
+   - SQLAlchemy提供数据库无关层
+   - 开发用SQLite，生产可切换PostgreSQL
+   - ORM的优势：类型安全、防SQL注入
+   - 依赖注入管理数据库会话
+
+5. **TypeScript类型系统**
+   - 编译时类型检查
+   - 接口定义和类型推断
+   - 提高代码质量和可维护性
+
+**遇到的挑战及解决**：
+1. **CORS跨域问题** 
+   - 问题：前端无法访问后端API
+   - 解决：配置FastAPI的CORS中间件
+   - 学到：理解浏览器同源策略
+
+2. **TypeScript类型错误** 
+   - 问题：类型不匹配导致编译失败
+   - 解决：正确定义接口和类型
+   - 学到：类型系统的重要性
+
+3. **SQLAlchemy 2.0新语法** 
+   - 问题：text()函数报错
+   - 解决：使用text()包裹SQL字符串
+   - 学到：新版本API变化需要关注
+
+4. **数据库选择困惑**
+   - 问题：PostgreSQL配置复杂
+   - 解决：开发环境用SQLite
+   - 学到：根据场景选择合适工具
+
+**完成的里程碑**：
+- ✅ 项目基础架构搭建完成
+- ✅ 后端API框架可运行
+- ✅ 前端React应用可访问
+- ✅ 数据库连接测试通过
+- ✅ Git版本控制建立
+- ✅ 开发文档完善
 
 **下一步改进**：
+- 深入学习SQLAlchemy模型定义
+- 掌握Alembic数据库迁移
+- 学习JWT认证实现
 - 加强TypeScript类型定义
-- 学习更多FastAPI高级特性
-- 深入理解异步编程
+- 学习React Hooks和状态管理
 
 ---
 
@@ -1042,7 +1306,7 @@ Type 'string' is not assignable to type 'number'
 
 | Sprint | 任务数 | 完成时间 | 学到的核心概念数 |
 |--------|--------|----------|------------------|
-| Sprint 0 | 3 | ~55分钟 | 25+ |
+| Sprint 0 | 4 | ~70分钟 | 30+ |
 
 **技术栈掌握度**（自评）：
 - Python基础: ⭐⭐⭐⭐☆
@@ -1050,7 +1314,8 @@ Type 'string' is not assignable to type 'number'
 - JavaScript: ⭐⭐⭐⭐☆
 - React: ⭐⭐⭐☆☆
 - TypeScript: ⭐⭐☆☆☆
-- 数据库: ⭐⭐☆☆☆
+- 数据库: ⭐⭐⭐☆☆  ← 提升！
+- SQLAlchemy: ⭐⭐⭐☆☆  ← 新增！
 
 ---
 
