@@ -657,7 +657,7 @@ Response: { code, message }
 - ✅ 用户只能操作自己的分类
 - ✅ 删除时关联账目的category_id会被设为NULL（通过外键约束）
 
-**Git提交**: 待提交 - feat(backend): 完成分类管理API实现
+**Git提交**: `aea4abe` - feat(backend): 完成分类管理API实现
 
 ---
 
