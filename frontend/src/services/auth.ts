@@ -16,7 +16,7 @@ const authAPI = {
    */
   register: async (data: RegisterRequest) => {
     const response = await api.post('/auth/register', data);
-    return response.data;
+    return response; // api拦截器已经返回了response.data
   },
 
   /**
@@ -24,7 +24,7 @@ const authAPI = {
    */
   login: async (data: LoginRequest) => {
     const response = await api.post('/auth/login', data);
-    return response.data;
+    return response; // api拦截器已经返回了response.data
   },
 
   /**
@@ -32,7 +32,7 @@ const authAPI = {
    */
   getMe: async () => {
     const response = await api.get('/auth/me');
-    return response.data;
+    return response; // api拦截器已经返回了response.data
   },
 
   /**
@@ -40,7 +40,7 @@ const authAPI = {
    */
   updateMe: async (data: UpdateUserRequest) => {
     const response = await api.put('/auth/me', data);
-    return response.data;
+    return response; // api拦截器已经返回了response.data
   },
 
   /**
@@ -48,7 +48,7 @@ const authAPI = {
    */
   changePassword: async (data: ChangePasswordRequest) => {
     const response = await api.post('/auth/change-password', data);
-    return response.data;
+    return response; // api拦截器已经返回了response.data
   },
 };
 
