@@ -4,30 +4,30 @@
 import api from './api';
 
 // 请求和响应类型定义
-export interface RegisterRequest {
+export type RegisterRequest = {
   username: string;
   email: string;
   password: string;
   nickname?: string;
-}
+};
 
-export interface LoginRequest {
+export type LoginRequest = {
   username: string;
   password: string;
-}
+};
 
-export interface UpdateUserRequest {
+export type UpdateUserRequest = {
   nickname?: string;
   email?: string;
   avatar_url?: string;
-}
+};
 
-export interface ChangePasswordRequest {
+export type ChangePasswordRequest = {
   old_password: string;
   new_password: string;
-}
+};
 
-export interface User {
+export type User = {
   id: number;
   username: string;
   email: string;
@@ -36,13 +36,13 @@ export interface User {
   is_active: boolean;
   created_at: string;
   updated_at?: string;
-}
+};
 
-export interface LoginResponse {
+export type LoginResponse = {
   access_token: string;
   token_type: string;
   user: User;
-}
+};
 
 // API函数
 const authAPI = {
