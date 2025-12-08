@@ -1,7 +1,8 @@
 /**
  * Axios配置和实例
  */
-import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios from 'axios';
+import type { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { message } from 'antd';
 import { API_BASE_URL, STORAGE_KEYS } from '../utils/constants';
 
@@ -31,7 +32,7 @@ api.interceptors.request.use(
 
 // 响应拦截器
 api.interceptors.response.use(
-  (response: AxiosResponse) => {
+  (response) => {
     return response.data;
   },
   (error: AxiosError) => {
