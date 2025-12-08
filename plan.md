@@ -687,7 +687,7 @@ categoryAPI.deleteCategory(id)
 - ✅ 分类数据缓存在Store中
 - ✅ 增删改后自动刷新列表
 
-**Git提交**: 待提交 - feat(frontend): 完成前端分类API封装和Store
+**Git提交**: `3d238fc` - feat(frontend): 完成分类管理功能（Task 2.3 & 2.4）
 
 ---
 
@@ -709,9 +709,8 @@ categoryAPI.deleteCategory(id)
 
 **功能要求**:
 - 支出和收入分类分开展示
-- 支持拖拽排序（可选）
-- 图标选择器：提供常用Emoji选择
-- 颜色选择器：提供预设颜色或自定义
+- 图标选择器：提供24个常用Emoji选择
+- 颜色选择器：提供15种预设颜色
 
 **UI组件**:
 - Tabs（支出/收入切换）
@@ -727,7 +726,7 @@ categoryAPI.deleteCategory(id)
 - ✅ 支持15种预设颜色选择
 - ✅ 响应式布局（支持移动端）
 
-**Git提交**: 待提交 - feat(frontend): 完成分类管理页面实现
+**Git提交**: `3d238fc` - feat(frontend): 完成分类管理功能（Task 2.3 & 2.4）
 
 ---
 
