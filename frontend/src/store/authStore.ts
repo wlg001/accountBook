@@ -2,7 +2,8 @@
  * 认证状态管理Store
  */
 import { create } from 'zustand';
-import authAPI, { User, LoginRequest, RegisterRequest } from '../services/auth';
+import authAPI from '../services/auth';
+import type { User, LoginRequest, RegisterRequest } from '../services/auth';
 import { STORAGE_KEYS } from '../utils/constants';
 
 interface AuthState {
