@@ -3,6 +3,7 @@ import { useAuthStore } from '../store/authStore';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
+import Categories from '../pages/Categories';
 
 /**
  * 路由守卫 - 保护需要认证的路由
@@ -63,6 +64,14 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/categories"
+          element={
+            <ProtectedRoute>
+              <Categories />
             </ProtectedRoute>
           }
         />
